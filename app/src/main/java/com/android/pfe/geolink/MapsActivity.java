@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -32,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private UiSettings mUiSettings;
     private GoogleApiClient mGoogleApiClient;
 
-    private TextView mCreatePoiBtn;
+    private Button mCreatePoiBtn;
     private Marker mSelection;
     private LatLng mPosition;
 
@@ -41,7 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        mCreatePoiBtn = (TextView) findViewById(R.id.btn_create_poi);
+        mCreatePoiBtn = (Button) findViewById(R.id.btn_create_poi);
         mCreatePoiBtn.setVisibility(View.INVISIBLE);
         mCreatePoiBtn.setOnClickListener(this);
 
