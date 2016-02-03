@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <LinearLayout
+        android:id="@+id/l_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/add_place_input_margin"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_place_icon_margin"
+            android:layout_marginRight="@dimen/add_place_icon_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_location_city_black_24dp" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_place_icon_margin"
+            android:layout_marginRight="@dimen/add_place_icon_margin"
+            android:layout_weight="1"
+            android:hint="@string/name"
+            android:maxLines="1"
+            android:textSize="@dimen/add_place_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/add_place_input_margin"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_place_icon_margin"
+            android:layout_marginRight="@dimen/add_place_icon_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_add_location_black_24dp" />
+
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_place_icon_margin"
+            android:layout_marginRight="@dimen/add_place_icon_margin"
+            android:layout_weight="1"
+            android:hint="@string/address"
+            android:maxLines="1"
+            android:textSize="@dimen/add_place_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/add_place_input_margin"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_place_icon_margin"
+            android:layout_marginRight="@dimen/add_place_icon_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_widgets_black_24dp" />
+
+        <EditText
+            android:id="@+id/category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_place_icon_margin"
+            android:layout_marginRight="@dimen/add_place_icon_margin"
+            android:layout_weight="1"
+            android:hint="@string/category"
+            android:maxLines="1"
+            android:textSize="@dimen/add_place_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/add_place_input_margin"
+        android:gravity="top">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_place_icon_margin"
+            android:layout_marginRight="@dimen/add_place_icon_margin"
+            android:layout_marginTop="@dimen/add_place_icon_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_more_horiz_black_24dp" />
+
+        <EditText
+            android:id="@+id/comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/add_place_icon_margin"
+            android:layout_marginRight="@dimen/add_place_icon_margin"
+            android:layout_weight="1"
+            android:hint="@string/comment"
+            android:textSize="@dimen/add_place_text_size" />
+    </LinearLayout>
+</LinearLayout>

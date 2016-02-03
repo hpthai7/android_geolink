@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">GeoLink</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_maps_activity">Map</string>
+    <string name="title_add_place_activity">Add Place</string>
+    <string name="btn_create_poi">Save this position</string>
+
+    <string name="toolbar_add_place">Add Place</string>
+
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="category">Category</string>
+    <string name="phone">Primary phone number</string>
+    <string name="website">Official website</string>
+    <string name="photo">Category</string>
+    <string name="comment">Comment</string>
+
 </resources>
