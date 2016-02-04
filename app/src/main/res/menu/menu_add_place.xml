@@ -5,4 +5,9 @@
         android:icon="@drawable/ic_send_black_24dp"
         android:title="@string/title_maps_activity"
         app:showAsAction="always"/>
+
+    <item android:id="@+id/action_manage"
+        android:icon="@drawable/ic_setting_light"
+        android:title="@string/title_maps_activity"
+        app:showAsAction="ifRoom"/>
 </menu>

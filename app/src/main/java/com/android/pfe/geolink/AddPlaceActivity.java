@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.android.pfe.geolink.collection.CollectionActivity;
 import com.android.pfe.geolink.data.GeoProvider;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -68,6 +68,11 @@ public class AddPlaceActivity extends AppCompatActivity {
             case R.id.action_send:
                 addPosition();
                 Utils.showToast(AddPlaceActivity.this, "Position added");
+                finish();
+                return true;
+            case R.id.action_manage:
+                Intent intent = new Intent(this, CollectionActivity.class);
+                startActivity(intent);
                 finish();
                 return true;
             default:

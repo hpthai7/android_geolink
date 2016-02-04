@@ -13,5 +13,6 @@
     <string name="website">Official website</string>
     <string name="photo">Category</string>
     <string name="comment">Comment</string>
+    <string name="title_activity_collection">CollectionActivity</string>
 
 </resources>
