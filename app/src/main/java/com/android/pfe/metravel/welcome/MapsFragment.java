@@ -1,15 +1,20 @@
-package com.android.pfe.geolink;
+package com.android.pfe.metravel.welcome;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
+import com.android.pfe.metravel.R;
+import com.android.pfe.metravel.common.Utils;
+import com.android.pfe.metravel.common.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -24,7 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+public class MapsFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, View.OnClickListener {
@@ -37,25 +42,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker mSelection;
     private LatLng mPosition;
 
+    // Called when the Fragment is attached to its parent Activity.
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Get a reference to the parent Activity.
+    }
 
-        mCreatePoiBtn = (Button) findViewById(R.id.btn_create_poi);
+    // Called to do the initial creation of the Fragment.
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Initialize the Fragment.
+    }
+
+    // Called once the Fragment has been created in order for it to
+    // create its user interface.
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Create, or inflate the Fragment's UI, and return it.
+        // If this Fragment has no UI then return null.
+        View view = inflater.inflate(R.layout.fragment_maps, container, false);
+        mCreatePoiBtn = (Button) view.findViewById(R.id.btn_create_poi);
         mCreatePoiBtn.setVisibility(View.INVISIBLE);
         mCreatePoiBtn.setOnClickListener(this);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        return view;
     }
 
     private void createMarker(LatLng position) {
@@ -71,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
     }
@@ -89,7 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mUiSettings = mMap.getUiSettings();
             mUiSettings.setZoomControlsEnabled(true);
@@ -107,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setOnMapLongClickListener(this);
         } else {
             // Show rationale and request permission.
-            Utils.showToast(this, "ACCESS_FINE_LOCATION not granted");
+            Utils.showToast(getContext(), "ACCESS_FINE_LOCATION not granted");
         }
 
         // Add a marker in Sydney and move the camera
@@ -138,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
     }
@@ -162,7 +186,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_create_poi:
-                Intent intent = new Intent(this, AddPlaceActivity.class);
+                Intent intent = new Intent(this.getContext(), AddLocationActivity.class);
                 intent.putExtra(Constants.POS_LAT, mPosition.latitude);
                 intent.putExtra(Constants.POS_LON, mPosition.longitude);
                 startActivity(intent);

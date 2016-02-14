@@ -1,4 +1,4 @@
-package com.android.pfe.geolink;
+package com.android.pfe.metravel;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

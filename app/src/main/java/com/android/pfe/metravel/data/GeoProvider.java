@@ -1,4 +1,4 @@
-package com.android.pfe.geolink.data;
+package com.android.pfe.metravel.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -75,7 +75,7 @@ public class GeoProvider extends ContentProvider {
 
         Cursor cursor = queryBuilder.query(db, projection, selection,
                 selectionArgs, groupBy, having, sortOrder);
-
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 

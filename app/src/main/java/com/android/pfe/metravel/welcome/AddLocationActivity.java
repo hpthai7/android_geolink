@@ -1,4 +1,4 @@
-package com.android.pfe.geolink;
+package com.android.pfe.metravel.welcome;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -12,14 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.android.pfe.geolink.collection.CollectionActivity;
-import com.android.pfe.geolink.data.GeoProvider;
+import com.android.pfe.metravel.R;
+import com.android.pfe.metravel.common.Utils;
+import com.android.pfe.metravel.common.Constants;
+import com.android.pfe.metravel.data.GeoProvider;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by hpthai7 on 31/01/16.
  */
-public class AddPlaceActivity extends AppCompatActivity {
+public class AddLocationActivity extends AppCompatActivity {
 
     private EditText mNameEdt;
     private EditText mAddressEdt;
@@ -67,13 +69,11 @@ public class AddPlaceActivity extends AppCompatActivity {
                 return true;
             case R.id.action_send:
                 addPosition();
-                Utils.showToast(AddPlaceActivity.this, "Position added");
+                Utils.showToast(AddLocationActivity.this, "Position added");
                 finish();
                 return true;
             case R.id.action_manage:
-                Intent intent = new Intent(this, CollectionActivity.class);
-                startActivity(intent);
-                finish();
+                Utils.showToast(AddLocationActivity.this, "Management");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

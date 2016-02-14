@@ -1,19 +1,16 @@
-package com.android.pfe.geolink.collection;
+package com.android.pfe.metravel.welcome;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
-import com.android.pfe.geolink.R;
-import com.android.pfe.geolink.data.GeoProvider;
+import com.android.pfe.metravel.R;
+import com.android.pfe.metravel.data.GeoProvider;
 
 /**
  * Created by hpthai7 on 03/02/16.
