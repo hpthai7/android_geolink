@@ -1,5 +1,6 @@
 package com.android.pfe.metravel.welcome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,9 +16,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.android.pfe.metravel.R;
 import com.android.pfe.metravel.common.Constants;
+import com.android.pfe.metravel.settings.SettingsActivity;
 import com.facebook.appevents.AppEventsLogger;
 
 public class WelcomeActivity extends AppCompatActivity
@@ -29,9 +32,12 @@ public class WelcomeActivity extends AppCompatActivity
     private static final int FAVORITE_LOCATIONS_FRAGMENT_ID = 2;
     private static final int SETTINGS_FRAGMENT_ID = 3;
 
+    private TextView mAccountName;
+    private TextView mAccountEmail;
+
     private Fragment mCurrentLocationFragment;
     private Fragment mFavoriteLocationsFragment;
-    private Fragment mSettingsFragment;
+//    private Fragment mSettingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,9 @@ public class WelcomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAccountName = (TextView) findViewById(R.id.account_name);
+        mAccountEmail = (TextView) findViewById(R.id.account_email);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +68,25 @@ public class WelcomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         showFragment(CURRENT_LOCATION_FRAGMENT_ID);
+
+        Intent intent = getIntent();
+        updateInfo(intent.getExtras());
+    }
+
+    private void updateInfo(Bundle bundle) {
+        if (bundle == null) {
+            return;
+        }
+        String fname = bundle.getString(Constants.FB_FNAME);
+        String lname = bundle.getString(Constants.FB_LNAME);
+        String name = fname == null ? lname : fname.concat(lname);
+        String email = bundle.getString(Constants.FB_EMAIL);
+        if (name != null && mAccountName != null) {
+            mAccountName.setText(name);
+        }
+        if (email != null && mAccountEmail != null) {
+            mAccountEmail.setText(email);
+        }
     }
 
     @Override
@@ -108,7 +136,9 @@ public class WelcomeActivity extends AppCompatActivity
             case R.id.nav_slideshow:
                 break;
             case R.id.nav_settings:
-                showFragment(SETTINGS_FRAGMENT_ID);
+//                showFragment(SETTINGS_FRAGMENT_ID);
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_share:
                 break;
@@ -146,13 +176,13 @@ public class WelcomeActivity extends AppCompatActivity
                 }
                 ft.show(mFavoriteLocationsFragment);
                 break;
-            case SETTINGS_FRAGMENT_ID:
-                if (mSettingsFragment == null) {
-                    mSettingsFragment = new MapsFragment();
-                    ft.add(R.id.container_view, mSettingsFragment, Constants.SETTINGS_FRAG);
-                }
-                ft.show(mSettingsFragment);
-                break;
+//            case SETTINGS_FRAGMENT_ID:
+//                if (mSettingsFragment == null) {
+//                    mSettingsFragment = new MapsFragment();
+//                    ft.add(R.id.container_view, mSettingsFragment, Constants.SETTINGS_FRAG);
+//                }
+//                ft.show(mSettingsFragment);
+//                break;
             default:
                 break;
         }
@@ -168,9 +198,9 @@ public class WelcomeActivity extends AppCompatActivity
         if (mFavoriteLocationsFragment != null) {
             ft.hide(mFavoriteLocationsFragment);
         }
-        if (mSettingsFragment != null) {
-            ft.hide(mSettingsFragment);
-        }
+//        if (mSettingsFragment != null) {
+//            ft.hide(mSettingsFragment);
+//        }
         ft.commit();
     }
 

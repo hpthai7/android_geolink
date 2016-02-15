@@ -15,12 +15,14 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.facebook.FacebookSdk;
+
 /**
  * Created by hpthai7 on 03/02/16.
  */
 public class GeoProvider extends ContentProvider {
 
-    public static final Uri CONTENT_URI = Uri.parse("content://com.android.pfe.geolink/locations");
+    public static final Uri CONTENT_URI = Uri.parse("content://com.android.pfe.metravel/locations");
 
     private static final UriMatcher sUriMatcher;
 
@@ -29,8 +31,8 @@ public class GeoProvider extends ContentProvider {
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI("com.android.pfe.geolink", "locations", ALL_ROWS);
-        sUriMatcher.addURI("com.android.pfe.geolink", "locations/#", SINGLE_ROW);
+        sUriMatcher.addURI("com.android.pfe.metravel", "locations", ALL_ROWS);
+        sUriMatcher.addURI("com.android.pfe.metravel", "locations/#", SINGLE_ROW);
     }
 
     private DatabaseHelper dbHelper;
@@ -85,9 +87,9 @@ public class GeoProvider extends ContentProvider {
         // Return \the MIME type for a Content Provider URI
         switch (sUriMatcher.match(uri)) {
             case ALL_ROWS:
-                return "vnd.android.cursor.dir/vnd.geolink.locations";
+                return "vnd.android.cursor.dir/vnd.metravel.locations";
             case SINGLE_ROW:
-                return "vnd.android.cursor.item/vnd.geolink.locations";
+                return "vnd.android.cursor.item/vnd.metravel.locations";
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
@@ -171,8 +173,9 @@ public class GeoProvider extends ContentProvider {
 
     class DatabaseHelper extends SQLiteOpenHelper {
 
+        private String sUserAccount;
         private static final String DATABASE_NAME = "geoDatabase.db";
-        private static final String DATABASE_TABLE = "GeoLink";
+        private static final String DATABASE_TABLE = "Locations";
         private static final int DATABASE_VERSION = 1;
 
         private static final String DATABASE_CREATE = "create table " + DATABASE_TABLE + " (" +

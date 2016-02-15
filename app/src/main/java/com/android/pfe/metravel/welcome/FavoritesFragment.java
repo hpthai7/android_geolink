@@ -101,40 +101,4 @@ public class FavoritesFragment extends Fragment implements LoaderManager.LoaderC
     public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
-
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        switch (loader.getId()) {
-//            case GEO_LOADER:
-//                if (mAdapter == null) {
-//                    mAdapter = new LocationAdapter(this, data, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-//                    mListView = (ListView) findViewById(R.id.location_list);
-//                    mListView.setAdapter(mAdapter);
-//
-//                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            LocationAdapter.ViewHolder viewHolder = (LocationAdapter.ViewHolder) view.getTag();
-//                            int idx = viewHolder.getId();
-//                            Intent intent = new Intent(CollectionActivity.this, StartupActivity.class);
-//                            intent.putExtra(GeoProvider.KEY_ID, idx);
-//                            startActivity(intent);
-//                        }
-//                    });
-//                } else {
-//                    // An underlying video having its thumbnail created
-//                    // onLoadFinished is called once again
-//                    // mAdapter.notifyDataSetChanged();
-//                    mAdapter.swapCursor(data);
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> loader) {
-//        mAdapter.swapCursor(null);
-//    }
 }
