@@ -3,6 +3,7 @@ package com.android.pfe.metravel.login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -33,6 +34,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.android.pfe.metravel.R;
+import com.android.pfe.metravel.common.Utils;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -61,6 +70,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private TextView mEmailView;
     private EditText mPasswordView;
+    private LoginButton mFbLoginBtn;
+
+    private CallbackManager mCallbackManager;
+
+    private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            Utils.showToast(LoginActivity.this, "onSuccess");
+        }
+
+        @Override
+        public void onCancel() {
+            Utils.showToast(LoginActivity.this, "onCancel");
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+            Utils.showToast(LoginActivity.this, "onError");
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +109,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        mFbLoginBtn = (LoginButton) findViewById(R.id.fb_login_button);
+        mFbLoginBtn.setReadPermissions("user_friends");
+
+        mCallbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(mCallbackManager, mFacebookCallback);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Call the 'activateApp' method to log an app event for use in analytics and advertising
+        // reporting.  Do so in the onResume methods of the primary Activities that an app may be
+        // launched into.
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Call the 'deactivateApp' method to log an app event for use in analytics and advertising
+        // reporting.  Do so in the onPause methods of the primary Activities that an app may be
+        // launched into.
+        AppEventsLogger.deactivateApp(this);
     }
 
     private void populateAutoComplete() {
@@ -88,6 +147,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         getLoaderManager().initLoader(0, null, this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, StartupActivity.class);
+        startActivity(intent);
     }
 
     private boolean mayRequestContacts() {

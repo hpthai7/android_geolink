@@ -18,6 +18,7 @@ import android.view.MenuItem;
 
 import com.android.pfe.metravel.R;
 import com.android.pfe.metravel.common.Constants;
+import com.facebook.appevents.AppEventsLogger;
 
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -171,5 +172,21 @@ public class WelcomeActivity extends AppCompatActivity
             ft.hide(mSettingsFragment);
         }
         ft.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
     }
 }

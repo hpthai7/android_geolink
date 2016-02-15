@@ -6,6 +6,7 @@
 
     <dimen name="action_button_min_width">500dp</dimen>
     <dimen name="startup_app_name">60dp</dimen>
+    <dimen name="login_text">40dp</dimen>
 
     <dimen name="add_place_input_margin">10dp</dimen>
     <dimen name="add_place_icon_margin">5dp</dimen>

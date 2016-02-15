@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Metravel</string>
+    <string name="app_name">metravel</string>
     <string name="log_in">Log in</string>
     <string name="sign_up">Sign up</string>
     <string name="title_maps_activity">Map</string>
@@ -37,4 +37,6 @@
         completions."
     </string>
 
+    <!--Facebook-->
+    <string name="facebook_app_id">977092295718934</string>
 </resources>
