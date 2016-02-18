@@ -20,11 +20,14 @@ import android.widget.TextView;
 
 import com.android.pfe.metravel.R;
 import com.android.pfe.metravel.common.Constants;
+import com.android.pfe.metravel.common.Utils;
 import com.android.pfe.metravel.settings.SettingsActivity;
 import com.facebook.appevents.AppEventsLogger;
 
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = WelcomeActivity.class.getSimpleName();
 
     private int mCurrentFragmentId;
 
@@ -46,9 +49,6 @@ public class WelcomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mAccountName = (TextView) findViewById(R.id.account_name);
-        mAccountEmail = (TextView) findViewById(R.id.account_email);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +66,9 @@ public class WelcomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerLayout = navigationView.getHeaderView(0);
+        mAccountName = (TextView) headerLayout.findViewById(R.id.account_name);
+        mAccountEmail = (TextView) headerLayout.findViewById(R.id.account_email);
 
         showFragment(CURRENT_LOCATION_FRAGMENT_ID);
 
@@ -79,12 +82,13 @@ public class WelcomeActivity extends AppCompatActivity
         }
         String fname = bundle.getString(Constants.FB_FNAME);
         String lname = bundle.getString(Constants.FB_LNAME);
-        String name = fname == null ? lname : fname.concat(lname);
+        String name = fname == null ? lname : fname.concat(" ").concat(lname);
         String email = bundle.getString(Constants.FB_EMAIL);
-        if (name != null && mAccountName != null) {
+        Utils.log(TAG, "name = " + name + ", mAccountName = " + mAccountName);
+        if (name != null) {
             mAccountName.setText(name);
         }
-        if (email != null && mAccountEmail != null) {
+        if (email != null) {
             mAccountEmail.setText(email);
         }
     }
@@ -202,6 +206,14 @@ public class WelcomeActivity extends AppCompatActivity
 //            ft.hide(mSettingsFragment);
 //        }
         ft.commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!Utils.isLocationEnabled(this)) {
+            Utils.showToast(this, "EEEEEEEEEEEEEEEEEE");
+        }
     }
 
     @Override
