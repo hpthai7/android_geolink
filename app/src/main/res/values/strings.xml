@@ -25,6 +25,9 @@
     <string name="title_activity_login">Sign in</string>
     <string name="settings_logout">Log out</string>
 
+    <string name="dialog_location_request">Please enable location service</string>
+    <string name="ok">OK</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>

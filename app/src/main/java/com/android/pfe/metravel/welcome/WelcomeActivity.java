@@ -209,14 +209,6 @@ public class WelcomeActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (!Utils.isLocationEnabled(this)) {
-            Utils.showToast(this, "EEEEEEEEEEEEEEEEEE");
-        }
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
 

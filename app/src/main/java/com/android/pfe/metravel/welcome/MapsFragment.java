@@ -1,20 +1,24 @@
 package com.android.pfe.metravel.welcome;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.android.pfe.metravel.R;
-import com.android.pfe.metravel.common.Utils;
 import com.android.pfe.metravel.common.Constants;
+import com.android.pfe.metravel.common.Utils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -42,6 +46,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback,
     private Marker mSelection;
     private LatLng mPosition;
 
+    protected LocationRequest mLocationRequest;
+
     // Called when the Fragment is attached to its parent Activity.
     @Override
     public void onAttach(Context context) {
@@ -54,6 +60,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize the Fragment.
+        createLocationRequest();
     }
 
     // Called once the Fragment has been created in order for it to
@@ -80,6 +87,24 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback,
                 .build();
 
         return view;
+    }
+
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+
+        // Sets the desired interval for active location updates. This interval is
+        // inexact. You may not receive updates at all if no location sources are available, or
+        // you may receive them slower than requested. You may also receive updates faster than
+        // requested if other applications are requesting location at a faster interval.
+        int UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        // Sets the fastest rate for active location updates. This interval is exact, and your
+        // application will never receive updates faster than this value.
+        int FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 20000;
+        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     private void createMarker(LatLng position) {
@@ -157,8 +182,26 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public boolean onMyLocationButtonClick() {
-        LocationRequest request = new LocationRequest();
+        if (!Utils.isLocationEnabled(getActivity())) {
+            new LocationRequestDialog().show(getFragmentManager(), null);
+        }
         return false;
+    }
+
+    public class LocationRequestDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+//            setView(inflater.inflate(R.layout.dialog_location_request, null))
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.dialog_location_request)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dismiss();
+                        }
+                    });
+            return builder.create();
+        }
     }
 
     @Override
