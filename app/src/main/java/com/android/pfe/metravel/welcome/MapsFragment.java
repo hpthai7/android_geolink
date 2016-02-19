@@ -182,9 +182,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public boolean onMyLocationButtonClick() {
-        if (!Utils.isLocationEnabled(getActivity())) {
-            new LocationRequestDialog().show(getFragmentManager(), null);
-        }
+//        if (!Utils.isLocationEnabled(getActivity())) {
+//            new LocationRequestDialog().show(getFragmentManager(), null);
+//        }
         return false;
     }
 
