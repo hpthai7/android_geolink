@@ -1,9 +1,9 @@
-Travail en progres
+Les captures de l'application [travail temporarement complete]:
 
-![ScreenShot](/screenshots/1.png)
+<img src=/screenshots/Screenshot_2016-02-19-11-28-44.png width=300 height=480 />
 
-![ScreenShot](/screenshots/2.png)
+<img src=/screenshots/Screenshot_2016-02-19-11-29-16.png width=300 height=480 />
 
-![ScreenShot](/screenshots/3.png)
+<img src=/screenshots/Screenshot_2016-02-19-12-32-16.png width=300 height=480 />
 
-![ScreenShot](/screenshots/4.png)
+<img src=/screenshots/Screenshot_2016-02-19-11-29-51.png width=300 height=480 />
