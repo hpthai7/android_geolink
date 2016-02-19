@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.android.pfe.metravel.R;
+import com.android.pfe.metravel.common.Constants;
 import com.android.pfe.metravel.common.Utils;
 import com.android.pfe.metravel.login.StartupActivity;
 
@@ -194,6 +196,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             public boolean onPreferenceClick(Preference preference) {
                 if (preference.getKey().equals("pref_log_out")) {
                     Utils.logoutOfFacebook();
+                    Utils.clearFacebookInformation(getActivity().getApplicationContext());
                     getActivity().finish();
                     Intent intent = new Intent(getActivity(), StartupActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -218,6 +221,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             Preference logoutBtn = (Preference) findPreference("pref_log_out");
             logoutBtn.setOnPreferenceClickListener(listener);
+
+            EditTextPreference pref = (EditTextPreference) findPreference("username");
+            String fname = Utils.getFacebookInformation(getActivity().getApplicationContext(), Constants.FB_FNAME);
+            String lname = Utils.getFacebookInformation(getActivity().getApplicationContext(), Constants.FB_LNAME);
+            String name = fname == null ? lname : fname.concat(" ").concat(lname);
+            pref.setText(name);
         }
 
         @Override

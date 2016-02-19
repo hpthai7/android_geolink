@@ -17,7 +17,9 @@ public class Constants {
     public static final String FB_LNAME = "last_name";
     public static final String FB_EMAIL = "email";
     public static final String FB_GENDER = "gender";
-    public static final String LB_DOB = "birthday";
-    public static final String LB_LOCATION = "location";
-    public static final String LB_LOCATION_NAME = "name";
+    public static final String FB_DOB = "birthday";
+    public static final String FB_LOCATION = "location";
+    public static final String FB_LOCATION_NAME = "name";
+
+    public static final String PREF_FB_INFO = "facebook_info";
 }

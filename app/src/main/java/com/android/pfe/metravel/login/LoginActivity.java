@@ -2,15 +2,18 @@ package com.android.pfe.metravel.login;
 
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.provider.ContactsContract;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.annotation.NonNull;
@@ -25,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.pfe.metravel.R;
+import com.android.pfe.metravel.common.Constants;
 import com.android.pfe.metravel.common.Utils;
 import com.android.pfe.metravel.welcome.WelcomeActivity;
 import com.facebook.AccessToken;
@@ -77,7 +81,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private LoginButton mFbLoginBtn;
 
     private CallbackManager mCallbackManager;
-    public static Bundle sFacebookBundle;
+
+    private Bundle mFacebookBundle;
 
     private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
         @Override
@@ -85,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             AccessToken token = loginResult.getAccessToken();
 
             Bundle bundle = new Bundle();
-            bundle.putString("fields", "id, first_name, last_name, email,gender, birthday, location");
+            bundle.putString("fields", "id, first_name, last_name, email, gender, birthday, location");
 
             GraphRequest request = GraphRequest.newMeRequest(token, mGraphCallback);
             request.setParameters(bundle);
@@ -106,20 +111,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private GraphRequest.GraphJSONObjectCallback mGraphCallback = new GraphRequest.GraphJSONObjectCallback() {
         @Override
         public void onCompleted(JSONObject object, GraphResponse response) {
-            sFacebookBundle = getFacebookData(object);
-            if (sFacebookBundle == null) {
+            mFacebookBundle = getFacebookData(object);
+            if (mFacebookBundle == null) {
                 Utils.showToast(LoginActivity.this, "Facebook authentication error");
                 return;
             }
+            Utils.saveFacebookInformation(getApplicationContext(), mFacebookBundle);
             Utils.showToast(LoginActivity.this, "onSuccess");
             Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-            intent.putExtras(sFacebookBundle);
+            intent.putExtras(mFacebookBundle);
             startActivity(intent);
             finish();
         }
     };
 
     private Bundle getFacebookData(JSONObject object) {
+        Utils.log("FBinfo", object.toString());
         try {
             Bundle bundle = new Bundle();
             String id = object.getString("id");
@@ -127,25 +134,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             try {
                 URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
                 Log.i("profile_pic", profile_pic + "");
-                bundle.putString("profile_pic", profile_pic.toString());
+                bundle.putString(Constants.FB_AVA, profile_pic.toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return null;
             }
 
-            bundle.putString("idFacebook", id);
-            if (object.has("first_name"))
-                bundle.putString("first_name", object.getString("first_name"));
-            if (object.has("last_name"))
-                bundle.putString("last_name", object.getString("last_name"));
-            if (object.has("email"))
-                bundle.putString("email", object.getString("email"));
-            if (object.has("gender"))
-                bundle.putString("gender", object.getString("gender"));
-            if (object.has("birthday"))
-                bundle.putString("birthday", object.getString("birthday"));
-            if (object.has("location"))
-                bundle.putString("location", object.getJSONObject("location").getString("name"));
+            bundle.putString(Constants.FB_ID, id);
+            if (object.has(Constants.FB_FNAME))
+                bundle.putString(Constants.FB_FNAME, object.getString(Constants.FB_FNAME));
+            if (object.has(Constants.FB_LNAME))
+                bundle.putString(Constants.FB_LNAME, object.getString(Constants.FB_LNAME));
+            if (object.has(Constants.FB_EMAIL))
+                bundle.putString(Constants.FB_EMAIL, object.getString(Constants.FB_EMAIL));
+            if (object.has(Constants.FB_GENDER))
+                bundle.putString(Constants.FB_GENDER, object.getString(Constants.FB_GENDER));
+            if (object.has(Constants.FB_DOB))
+                bundle.putString(Constants.FB_DOB, object.getString(Constants.FB_DOB));
+            if (object.has(Constants.FB_LOCATION))
+                bundle.putString(Constants.FB_LOCATION, object.getJSONObject(Constants.FB_LOCATION).getString(Constants.FB_LOCATION_NAME));
             return bundle;
         } catch (JSONException e) {
             return null;

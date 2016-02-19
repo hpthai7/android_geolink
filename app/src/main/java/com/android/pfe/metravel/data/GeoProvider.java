@@ -41,6 +41,7 @@ public class GeoProvider extends ContentProvider {
     public static final String KEY_ID = "_id";
     // The name and column index of each column in database
     public static final String GEO_NAME = "name";
+    public static final String GEO_FBID = "fbid";
     public static final String GEO_ADDRESS = "address";
     public static final String GEO_CATEGORY = "category";
     public static final String GEO_COMMENT = "comment";
@@ -180,6 +181,7 @@ public class GeoProvider extends ContentProvider {
 
         private static final String DATABASE_CREATE = "create table " + DATABASE_TABLE + " (" +
                 GeoProvider.KEY_ID + " integer primary key autoincrement, " +
+                GeoProvider.GEO_FBID + " text not null, " +
                 GeoProvider.GEO_NAME + " text not null, " +
                 GeoProvider.GEO_ADDRESS + " text not null, " +
                 GeoProvider.GEO_CATEGORY + " text, " +

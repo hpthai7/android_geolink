@@ -14,7 +14,10 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import com.android.pfe.metravel.R;
+import com.android.pfe.metravel.common.Constants;
+import com.android.pfe.metravel.common.Utils;
 import com.android.pfe.metravel.data.GeoProvider;
+import com.android.pfe.metravel.login.LoginActivity;
 
 public class FavoritesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -41,10 +44,14 @@ public class FavoritesFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String fbid = Utils.getFacebookInformation(getActivity().getApplicationContext(), Constants.FB_ID);
+        if (fbid == null) {
+            return null;
+        }
         CursorLoader loader = null;
         String[] projection = null;
-        String selection = null;
-        String[] selectionArgs = null;
+        String selection = GeoProvider.GEO_FBID + " = ?";
+        String[] selectionArgs = new String[] { fbid };
         String sortOrder = null;
         switch (id) {
             case GEO_LOADER:

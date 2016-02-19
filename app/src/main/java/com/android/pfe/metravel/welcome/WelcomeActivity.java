@@ -73,23 +73,21 @@ public class WelcomeActivity extends AppCompatActivity
         showFragment(CURRENT_LOCATION_FRAGMENT_ID);
 
         Intent intent = getIntent();
-        updateInfo(intent.getExtras());
+        updateInfo();
     }
 
-    private void updateInfo(Bundle bundle) {
-        if (bundle == null) {
-            return;
-        }
-        String fname = bundle.getString(Constants.FB_FNAME);
-        String lname = bundle.getString(Constants.FB_LNAME);
+    private void updateInfo() {
+        String fname = Utils.getFacebookInformation(getApplicationContext(), Constants.FB_FNAME);
+        String lname = Utils.getFacebookInformation(getApplicationContext(), Constants.FB_LNAME);
         String name = fname == null ? lname : fname.concat(" ").concat(lname);
-        String email = bundle.getString(Constants.FB_EMAIL);
-        Utils.log(TAG, "name = " + name + ", mAccountName = " + mAccountName);
+        String email = Utils.getFacebookInformation(getApplicationContext(), Constants.FB_EMAIL);
         if (name != null) {
             mAccountName.setText(name);
         }
         if (email != null) {
             mAccountEmail.setText(email);
+        } else {
+            mAccountEmail.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -137,16 +135,12 @@ public class WelcomeActivity extends AppCompatActivity
             case R.id.nav_favorites:
                 showFragment(FAVORITE_LOCATIONS_FRAGMENT_ID);
                 break;
-            case R.id.nav_slideshow:
-                break;
             case R.id.nav_settings:
 //                showFragment(SETTINGS_FRAGMENT_ID);
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_share:
-                break;
-            case R.id.nav_send:
                 break;
             default:
                 break;

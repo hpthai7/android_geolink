@@ -16,6 +16,7 @@ import com.android.pfe.metravel.R;
 import com.android.pfe.metravel.common.Utils;
 import com.android.pfe.metravel.common.Constants;
 import com.android.pfe.metravel.data.GeoProvider;
+import com.android.pfe.metravel.login.LoginActivity;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -68,9 +69,12 @@ public class AddLocationActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_send:
-                addPosition();
-                Utils.showToast(AddLocationActivity.this, "Position added");
-                finish();
+                if (addPosition() != null) {
+                    Utils.showToast(AddLocationActivity.this, "Position added");
+                    finish();
+                } else {
+                    Utils.showToast(this, "Error in saving location");
+                }
                 return true;
             case R.id.action_manage:
                 Utils.showToast(AddLocationActivity.this, "Management");
@@ -96,9 +100,14 @@ public class AddLocationActivity extends AppCompatActivity {
         if (name == null || address == null) {
             return null;
         }
+        String fbid = Utils.getFacebookInformation(getApplicationContext(), Constants.FB_ID);
+        if (fbid == null) {
+            return null;
+        }
         ContentValues cv = new ContentValues();
         cv.put(GeoProvider.GEO_NAME, name);
         cv.put(GeoProvider.GEO_ADDRESS, address);
+        cv.put(GeoProvider.GEO_FBID, fbid);
         cv.put(GeoProvider.GEO_CATEGORY, category);
         cv.put(GeoProvider.GEO_COMMENT, comment);
         cv.put(GeoProvider.GEO_LATITUDE, mPosition.latitude);
